@@ -1,7 +1,6 @@
 package com.example.playmysongsbackend.controller;
 
 import com.example.playmysongsbackend.entity.Song;
-import com.example.playmysongsbackend.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +10,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -76,7 +76,7 @@ public class SongsRestController {
             Path root = Paths.get("./src/main/resources/static/songs");
 
             try {
-                Files.copy(audio.getInputStream(), root.resolve(nomeArquivo));
+                Files.copy(audio.getInputStream(), root.resolve(nomeArquivo), StandardCopyOption.REPLACE_EXISTING);
             } catch (Exception e) {
                 return ResponseEntity.badRequest().body("Erro: " + e.getMessage());
             }
